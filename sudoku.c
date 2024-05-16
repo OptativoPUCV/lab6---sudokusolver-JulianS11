@@ -44,30 +44,24 @@ void print_node(Node* n){
 }
 
 int is_valid(Node* n){
-  int i,j,k;
-  int* col;
-  int* row;
-  int* box;
-  col=malloc(9*sizeof(int));
-  row=malloc(9*sizeof(int));
-  box=malloc(9*sizeof(int));
-  for(i=0;i<9;i++){
-    for(j=0;j<9;j++){
-      col[j]=n->sudo[j][i];
-      row[j]=n->sudo[i][j];
+  int filas_check[9][9] = {0};
+  int columnas_check[9][9] = {0};
+  int submatriz_check[9][9] = {0};
+  int i,j;
+  for(i = 0; i < 9; i++){
+    for(j = 0; j < 9; j++){
+      if(n->sudo[i][j] != 0){
+        int submatriz = (i/3)*3 + j/3;
+        if(filas_check[i][n->sudo[i][j]-1] == 1 || columnas_check[j][n->sudo[i][j]-1] == 1 ||           submatriz_check[submatriz][n->sudo[i][j]-1] == 1){
+          return 0;
+        }
+        filas_check[i][n->sudo[i][j]-1] = 1;
+        columnas_check[j][n->sudo[i][j]-1] = 1;
+        submatriz_check[submatriz][n->sudo[i][j]-1] = 1;
+      }
     }
-    for(k=0;k<9;k++){
-      if(col[k]==0) continue;
-      if(row[k]==0) continue;
-      if(box[k]==0) continue;
-      if(col[k]==col[k+1]) return 0;
-      if(row[k]==row[k+1]) return 0;
-      if(box[k]==box[k+1]) return 0;
-    }
-    
   }
   return 1;
-
 }
 
 
