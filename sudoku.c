@@ -44,8 +44,30 @@ void print_node(Node* n){
 }
 
 int is_valid(Node* n){
+  int i,j,k;
+  int* col;
+  int* row;
+  int* box;
+  col=malloc(9*sizeof(int));
+  row=malloc(9*sizeof(int));
+  box=malloc(9*sizeof(int));
+  for(i=0;i<9;i++){
+    for(j=0;j<9;j++){
+      col[j]=n->sudo[j][i];
+      row[j]=n->sudo[i][j];
+    }
+    for(k=0;k<9;k++){
+      if(col[k]==0) continue;
+      if(row[k]==0) continue;
+      if(box[k]==0) continue;
+      if(col[k]==col[k+1]) return 0;
+      if(row[k]==row[k+1]) return 0;
+      if(box[k]==box[k+1]) return 0;
+    }
+    
+  }
+  return 1;
 
-    return 1;
 }
 
 
@@ -84,24 +106,7 @@ d) Agregue los nodos de la lista (uno por uno) al stack S.
 e) Libere la memoria usada por el nodo.
 Si terminó de recorre el grafo sin encontrar una solución, retorne NULL.*/
 Node* DFS(Node* initial, int* cont){
-  Stack *pila = createStack();
-  push(pila,initial);
-  while(!is_empty(pila)){
-    Node *n = top(pila);
-    pop(pila);
-    if(is_final(n)){
-      return n;
-    }
-    List *list_adj = get_adj_nodes(n);
-    Node *aux = first(list_adj);
-    while(aux){
-      push(pila,aux);
-      aux = next(list_adj);
-    }
-    free(n);
-  }
   return NULL;
-  
 }
 
 
