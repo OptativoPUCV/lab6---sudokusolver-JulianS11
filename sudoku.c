@@ -87,7 +87,14 @@ List* get_adj_nodes(Node* n){
 
 
 int is_final(Node* n){
-    return 0;
+  for(int i = 0; i < 9; i++){
+    for(int j = 0; j<9; j++){
+      if(n->sudo[i][j] == 0){
+        return 0;
+      }
+    }
+  }
+  return 1;
 }
 
 
@@ -100,6 +107,34 @@ d) Agregue los nodos de la lista (uno por uno) al stack S.
 e) Libere la memoria usada por el nodo.
 Si terminó de recorre el grafo sin encontrar una solución, retorne NULL.*/
 Node* DFS(Node* initial, int* cont){
+  Stack *stack = createStack();
+  push(stack,initial);
+  *cont = 0;
+
+  while(!is_empty(stack)){
+    Node *n = top(stack);
+    pop(stack);
+    (*cont)++;
+    if(is_final(n)){
+      while(is_empty(stack)){
+        Node *aux = top(stack);
+        pop(stack);
+        free(stack);
+      }
+      free(stack);
+      return n;
+    }
+
+    List *adj = get_adj_nodes(n);
+    Node *aux = first(adj);
+    while(aux){
+      push(stack,aux);
+      aux = next(adj);
+    }
+    free(n);
+    free(adj);
+  }
+  free(stack);
   return NULL;
 }
 
