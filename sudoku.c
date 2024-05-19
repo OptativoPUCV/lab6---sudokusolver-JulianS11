@@ -119,7 +119,7 @@ Node* DFS(Node* initial, int* cont){
       while(is_empty(stack)){
         Node *aux = top(stack);
         pop(stack);
-        free(stack);
+        free(aux);
       }
       free(stack);
       return n;
